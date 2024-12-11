@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Review Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f4f8;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 500px;
+            flex-grow: 1;
+        }
+
+        .footer {
+            text-align: center;
+            font-size: 14px;
+            color: #888;
+            padding: 10px 0;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-top: 10px;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        .rating {
+            display: flex;
+            justify-content: space-between;
+            margin: 10px 0;
+        }
+
+        .rating input {
+            display: none;
+        }
+
+        .rating label {
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        .rating input:checked ~ label {
+            color: #ffcc00;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .output-box {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #e8f5e9;
+            border: 1px solid #4CAF50;
+            border-radius: 4px;
+            word-wrap: break-word;
+            max-height: 200px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .copy-button, .review-button {
+            background-color: #2196F3;
+        }
+
+        .copy-button:hover, .review-button:hover {
+            background-color: #0b7dda;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Review Generator</h1>
+
+        <div id="urlForm">
+            <h2>Enter Business Information</h2>
+            <label for="brandName">Brand Name (Required):</label>
+            <input type="text" id="brandName" name="brandName" required>
+
+            <label for="industry">Industry (Required):</label>
+            <input type="text" id="industry" name="industry" required>
+
+            <label for="googleLink">Google Review Link:</label>
+            <input type="url" id="googleLink" name="googleLink">
+
+            <label for="zomatoLink">Zomato Review Link:</label>
+            <input type="url" id="zomatoLink" name="zomatoLink">
+
+            <label for="tripAdvisorLink">TripAdvisor Review Link:</label>
+            <input type="url" id="tripAdvisorLink" name="tripAdvisorLink">
+
+            <button id="generateURLButton">Generate Review Link</button>
+            <div id="generatedURL" class="output-box hidden"></div>
+        </div>
+
+        <div id="reviewFormContainer" class="hidden">
+            <h2>Submit Your Review</h2>
+            <label for="brandNameField">Brand Name:</label>
+            <input type="text" id="brandNameField" name="brandNameField" disabled>
+
+            <div class="rating">
+                <label for="rating5">★</label><input type="radio" id="rating5" name="rating" value="5">
+                <label for="rating4">★</label><input type="radio" id="rating4" name="rating" value="4">
+                <label for="rating3">★</label><input type="radio" id="rating3" name="rating" value="3">
+                <label for="rating2">★</label><input type="radio" id="rating2" name="rating" value="2">
+                <label for="rating1">★</label><input type="radio" id="rating1" name="rating" value="1">
+            </div>
+
+            <label for="name">Your Name:</label>
+            <input type="text" id="name" name="name">
+
+            <label for="phone">Phone Number:</label>
+            <input type="tel" id="phone" name="phone">
+
+            <button id="generateReviewButton">Generate Review</button>
+            <div id="outputBox" class="output-box">Review will appear here...</div>
+            <button class="copy-button" id="copyButton" class="hidden">Copy Review</button>
+
+            <button class="review-button" id="googleReviewButton">Submit on Google</button>
+            <button class="review-button" id="tripAdvisorReviewButton">Submit on TripAdvisor</button>
+            <button class="review-button" id="zomatoReviewButton">Submit on Zomato</button>
+        </div>
+    </div>
+
+    <div class="footer">
+        Developed by Karan Khosla 
+        <a href="https://www.linkedin.com/in/karan-khosla12" target="_blank"> profile </a>
+    </div>
+
+    <script>
+        function getQueryParams() {
+            const params = {};
+            const queryString = window.location.search;
+            const urlParams = new URLSearchParams(queryString);
+            urlParams.forEach((value, key) => {
+                params[key] = value;
+            });
+            return params;
+        }
+
+        window.onload = function() {
+            const params = getQueryParams();
+
+            if (params.utm_brand && params.utm_industry) {
+                // Populate review form with UTM parameters and disable brand name field
+                document.getElementById('brandNameField').value = params.utm_brand;
+                document.getElementById('brandNameField').disabled = true;
+
+                // Show the review form and hide the URL form
+                document.getElementById('urlForm').classList.add('hidden');
+                document.getElementById('reviewFormContainer').classList.remove('hidden');
+            } else {
+                document.getElementById('reviewFormContainer').classList.add('hidden');
+                document.getElementById('urlForm').classList.remove('hidden');
+            }
+        };
+
+        // Generate the UTM URL
+        document.getElementById('generateURLButton').addEventListener('click', function() {
+            const brandName = document.getElementById('brandName').value;
+            const industry = document.getElementById('industry').value;
+            const googleLink = document.getElementById('googleLink').value;
+            const zomatoLink = document.getElementById('zomatoLink').value;
+            const tripAdvisorLink = document.getElementById('tripAdvisorLink').value;
+
+            const url = `https://yourwebsite.com/review?utm_brand=${encodeURIComponent(brandName)}&utm_industry=${encodeURIComponent(industry)}&utm_googlelink=${encodeURIComponent(googleLink)}&utm_zomatoLink=${encodeURIComponent(zomatoLink)}&utm_tripAdvisorLink=${encodeURIComponent(tripAdvisorLink)}`;
+
+            document.getElementById('generatedURL').textContent = url;
+            document.getElementById('generatedURL').classList.remove('hidden');
+        });
+
+        document.getElementById('generateReviewButton').addEventListener('click', function() {
+            const brandName = document.getElementById('brandNameField').value;
+            const rating = document.querySelector('input[name="rating"]:checked').value;
+            const name = document.getElementById('name').value;
+            const phone = document.getElementById('phone').value;
+            const industry = getQueryParams().utm_industry;
+
+            const reviewText = `Write a 100 words review rating ${brandName} which is in the ${industry} giving them a ${rating} out of 5.`;
+
+            document.getElementById('outputBox').textContent = reviewText;
+
+            // Enable the copy button
+            document.getElementById('copyButton').classList.remove('hidden');
+        });
+
+        // Copy the review to clipboard
+        document.getElementById('copyButton').addEventListener('click', function() {
+            const reviewText = document.getElementById('outputBox').textContent;
+            navigator.clipboard.writeText(reviewText).then(() => {
+                alert('Review copied to clipboard!');
+            });
+        });
+
+        // Submit the review to Zapier
+        function submitReview() {
+            const reviewText = document.getElementById('outputBox').textContent;
+            fetch('https://hooks.zapier.com/hooks/catch/12793543/3j7uv2b/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ review: reviewText })
+            });
+        }
+
+        // Add event listeners for submitting reviews
+        document.getElementById('googleReviewButton').addEventListener('click', function() {
+            window.open(getQueryParams().utm_googlelink, '_blank');
+            submitReview();
+        });
+
+        document.getElementById('tripAdvisorReviewButton').addEventListener('click', function() {
+            window.open(getQueryParams().utm_tripAdvisorLink, '_blank');
+            submitReview();
+        });
+
+        document.getElementById('zomatoReviewButton').addEventListener('click', function() {
+            window.open(getQueryParams().utm_zomatoLink, '_blank');
+            submitReview();
+        });
+    </script>
+</body>
+</html>
