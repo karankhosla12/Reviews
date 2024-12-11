@@ -235,13 +235,23 @@
         });
 
         // Show feedback form after URL is generated
-        window.onload = function() {
-            const params = new URLSearchParams(window.location.search);
-            const brand = params.get('utm_brand');
-            const industry = params.get('utm_industry');
-            const zomatoLink = params.get('utm_zomatoLink');
-            const tripAdvisorLink = params.get('utm_tripAdvisorLink');
-            const googleLink = params.get('utm_googlelink');
+    window.onload = function () {
+    const params = new URLSearchParams(window.location.search);
+    const brand = params.get('utm_brand');
+    const industry = params.get('utm_industry');
+    const googleLink = params.get('utm_googlelink');
+    const zomatoLink = params.get('utm_zomatoLink');
+    const tripAdvisorLink = params.get('utm_tripAdvisorLink');
+
+    if (brand && industry) {
+        // Populate the fields with URL parameters
+        document.getElementById('brandField').value = brand;
+        document.getElementById('industryField').value = industry;
+
+        // Show the feedback form
+        document.getElementById('urlForm').classList.add('hidden');
+        document.getElementById('feedbackFormContainer').classList.remove('hidden');
+    }
 
             if (brand && industry) {
                 document.getElementById('brandField').value = brand;
@@ -295,18 +305,7 @@
             try {
                 await navigator.clipboard.writeText(reviewText);
                 alert('Review copied to clipboard!');
-                
-                // Send data to Zapier
-                fetch('https://hooks.zapier.com/hooks/catch/12793543/3j7uv2b/', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        name: name,
-                        phone: phone,
-                        rating: rating,
-                        reviewText: reviewText
-                    })
-                });
+    
             } catch (error) {
                 alert('Error copying text: ' + error);
             }
