@@ -239,6 +239,9 @@
             const params = new URLSearchParams(window.location.search);
             const brand = params.get('utm_brand');
             const industry = params.get('utm_industry');
+            const zomatoLink = params.get('utm_zomatoLink');
+            const tripAdvisorLink = params.get('utm_tripAdvisorLink');
+            const googleLink = params.get('utm_googlelink');
 
             if (brand && industry) {
                 document.getElementById('brandField').value = brand;
