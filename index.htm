@@ -213,17 +213,25 @@
             });
         });
 
-        document.getElementById('generateURLButton').addEventListener('click', function() {
-            const brandName = document.getElementById('brandName').value;
-            const industry = document.getElementById('industry').value;
-            const googleLink = document.getElementById('googleLink').value;
-            const zomatoLink = document.getElementById('zomatoLink').value;
-            const tripAdvisorLink = document.getElementById('tripAdvisorLink').value;
+       document.getElementById('generateURLButton').addEventListener('click', function () {
+    const brandName = document.getElementById('brand').value;
+    const industry = document.getElementById('industry').value;
+    const googleLink = document.getElementById('googleLink').value;
+    const zomatoLink = document.getElementById('zomatoLink').value;
+    const tripAdvisorLink = document.getElementById('tripAdvisorLink').value;
 
-            const url = `https://karankhosla12.github.io/Reviews/?utm_brand=${encodeURIComponent(brandName)}&utm_industry=${encodeURIComponent(industry)}&utm_googlelink=${encodeURIComponent(googleLink)}&utm_zomatoLink=${encodeURIComponent(zomatoLink)}&utm_tripAdvisorLink=${encodeURIComponent(tripAdvisorLink)}`;
-            document.getElementById('generatedURL').textContent = url;
-            document.getElementById('generatedURL').classList.remove('hidden');
-        });
+    if (!brandName || !industry) {
+        alert('Please fill in the Brand Name and Business Industry fields.');
+        return;
+    }
+
+    const url = `https://karankhosla12.github.io/Reviews/?utm_brand=${encodeURIComponent(brandName)}&utm_industry=${encodeURIComponent(industry)}&utm_googlelink=${encodeURIComponent(googleLink || '')}&utm_zomatoLink=${encodeURIComponent(zomatoLink || '')}&utm_tripAdvisorLink=${encodeURIComponent(tripAdvisorLink || '')}`;
+    
+    const generatedURLDiv = document.getElementById('generatedURL');
+    generatedURLDiv.textContent = url;
+    generatedURLDiv.classList.remove('hidden');
+});
+
 
         document.getElementById('generateReviewButton').addEventListener('click', function() {
             const brandName = document.getElementById('brandNameField').value;
