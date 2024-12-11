@@ -213,16 +213,32 @@
             });
         });
 
-        document.getElementById('generateURLButton').addEventListener('click', () => {
-            const brand = document.getElementById('brand').value;
+        document.getElementById('generateURLButton').addEventListener('click', function() {
+            const brandName = document.getElementById('brandName').value;
             const industry = document.getElementById('industry').value;
+            const googleLink = document.getElementById('googleLink').value;
+            const zomatoLink = document.getElementById('zomatoLink').value;
+            const tripAdvisorLink = document.getElementById('tripAdvisorLink').value;
 
-            if (brand && industry) {
-                const url = `https://karankhosla12.github.io/Reviews/?utm_brand=${encodeURIComponent(brand)}&utm_industry=${encodeURIComponent(industry)}`;
-                document.getElementById('generatedURL').textContent = url;
-                document.getElementById('generatedURL').classList.remove('hidden');
-            }
+            const url = `https://karankhosla12.github.io/Reviews/?utm_brand=${encodeURIComponent(brandName)}&utm_industry=${encodeURIComponent(industry)}&utm_googlelink=${encodeURIComponent(googleLink)}&utm_zomatoLink=${encodeURIComponent(zomatoLink)}&utm_tripAdvisorLink=${encodeURIComponent(tripAdvisorLink)}`;
+            document.getElementById('generatedURL').textContent = url;
+            document.getElementById('generatedURL').classList.remove('hidden');
         });
+
+        document.getElementById('generateReviewButton').addEventListener('click', function() {
+            const brandName = document.getElementById('brandNameField').value;
+            const rating = document.querySelector('input[name="rating"]:checked').value;
+            const name = document.getElementById('name').value;
+            const phone = document.getElementById('phone').value;
+            const industry = getQueryParams().utm_industry;
+
+            const reviewText = `Write a 100 words review rating ${brandName} which is in the ${industry} giving them a ${rating} out of 5.`;
+
+            document.getElementById('outputBox').textContent = reviewText;
+
+            // Enable the copy button
+            document.getElementById('copyButton').classList.remove('hidden');
+
 
         window.onload = function() {
             const params = new URLSearchParams(window.location.search);
