@@ -89,7 +89,7 @@
             overflow-y: auto;
         }
 
-        #copyButton, #submitButton {
+        #copyButton {
             width: 100%;
             padding: 12px;
             background-color: #0288d1;
@@ -100,7 +100,7 @@
             margin-top: 10px;
         }
 
-        #copyButton:hover, #submitButton:hover {
+        #copyButton:hover {
             background-color: #01579b;
         }
 
@@ -171,7 +171,7 @@
 
                     <textarea id="feedbackNotes" name="feedbackNotes" placeholder="Add your notes here..."></textarea>
 
-                    <button type="button" id="submitButton">Submit Feedback</button>
+                    <button type="button" id="generateReviewButton">Generate Review</button>
                     <button type="button" id="copyButton" class="hidden">Copy Review</button>
                 </div>
             </form>
@@ -226,15 +226,20 @@
             }
         };
 
-        // Handle feedback submission
-        document.getElementById('submitButton').addEventListener('click', async () => {
+        // Handle Generate Review button click
+        document.getElementById('generateReviewButton').addEventListener('click', async () => {
+            const brand = document.getElementById('brandField').value;
+            const industry = document.getElementById('industryField').value;
             const name = document.getElementById('nameField').value;
             const phone = document.getElementById('phoneField').value;
             const feedbackNotes = document.getElementById('feedbackNotes').value;
 
+            const prompt = `Write a 100 words review rating ${brand} which is in the ${industry} giving them a ${rating} out of 5.`;
+
             const payload = {
-                brand: document.getElementById('brandField').value,
-                industry: document.getElementById('industryField').value,
+                prompt: prompt,
+                brand: brand,
+                industry: industry,
                 rating: rating,
                 name: name,
                 phone: phone,
@@ -250,6 +255,8 @@
                     body: JSON.stringify(payload)
                 });
                 const data = await response.json();
+                console.log('API Response:', data);
+
                 if (data.response && data.response.response) {
                     document.getElementById('reviewOutput').textContent = data.response.response;
                     document.getElementById('reviewOutput').classList.remove('hidden');
@@ -259,7 +266,7 @@
                 }
             } catch (error) {
                 console.error('Error:', error);
-                document.getElementById('reviewOutput').textContent = 'Error processing your request';
+                document.getElementById('reviewOutput').textContent = 'There was an error processing your request. Please try again later.';
             }
         });
 
