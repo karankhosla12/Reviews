@@ -104,6 +104,16 @@
             background-color: #01579b;
         }
 
+        #zomatoButton, #tripAdvisorButton, #googleButton {
+            width: 30%;
+            margin: 10px 5% 0;
+            background-color: #ff5722;
+        }
+
+        #zomatoButton:hover, #tripAdvisorButton:hover, #googleButton:hover {
+            background-color: #e64a19;
+        }
+
         .hidden {
             display: none;
         }
@@ -177,6 +187,11 @@
             </form>
 
             <div id="reviewOutput" class="output-box hidden"></div>
+            
+            <!-- Buttons for review platforms -->
+            <button id="zomatoButton" class="hidden">Post on Zomato</button>
+            <button id="tripAdvisorButton" class="hidden">Post on TripAdvisor</button>
+            <button id="googleButton" class="hidden">Post on Google</button>
         </div>
     </div>
 
@@ -261,6 +276,9 @@
                     document.getElementById('reviewOutput').textContent = data.response.response;
                     document.getElementById('reviewOutput').classList.remove('hidden');
                     document.getElementById('copyButton').classList.remove('hidden');
+                    document.getElementById('zomatoButton').classList.remove('hidden');
+                    document.getElementById('tripAdvisorButton').classList.remove('hidden');
+                    document.getElementById('googleButton').classList.remove('hidden');
                 } else {
                     document.getElementById('reviewOutput').textContent = 'No response received';
                 }
@@ -273,17 +291,52 @@
         // Copy review to clipboard
         document.getElementById('copyButton').addEventListener('click', async () => {
             const reviewText = document.getElementById('reviewOutput').textContent;
+            const name = document.getElementById('nameField').value;
+            const phone = document.getElementById('phoneField').value;
+
             try {
                 await navigator.clipboard.writeText(reviewText);
                 alert('Review copied to clipboard!');
+                
+                // Send data to Zapier
                 fetch('https://hooks.zapier.com/hooks/catch/12793543/3j7uv2b/', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ reviewText })
+                    body: JSON.stringify({
+                        name: name,
+                        phone: phone,
+                        rating: rating,
+                        reviewText: reviewText
+                    })
                 });
             } catch (error) {
                 alert('Error copying text: ' + error);
             }
+        });
+
+        // Open respective URL with UTM parameters
+        document.getElementById('zomatoButton').addEventListener('click', () => {
+            const zomatoLink = document.getElementById('zomatoLink').value;
+            const brand = document.getElementById('brandField').value;
+            const industry = document.getElementById('industryField').value;
+            const url = `${zomatoLink}';
+            window.open(url, '_blank');
+        });
+
+        document.getElementById('tripAdvisorButton').addEventListener('click', () => {
+            const tripAdvisorLink = document.getElementById('tripAdvisorLink').value;
+            const brand = document.getElementById('brandField').value;
+            const industry = document.getElementById('industryField').value;
+            const url = `${tripAdvisorLink}';
+            window.open(url, '_blank');
+        });
+
+        document.getElementById('googleButton').addEventListener('click', () => {
+            const googleLink = document.getElementById('googleLink').value;
+            const brand = document.getElementById('brandField').value;
+            const industry = document.getElementById('industryField').value;
+            const url = `${googleLink}`;
+            window.open(url, '_blank');
         });
     </script>
 </body>
