@@ -203,7 +203,6 @@
         const starElements = document.querySelectorAll('.star');
         let rating = 0;
 
-        // Handle star rating selection
         starElements.forEach(star => {
             star.addEventListener('click', () => {
                 rating = parseInt(star.getAttribute('data-value'));
@@ -214,7 +213,6 @@
             });
         });
 
-        // Generate UTM URL
         document.getElementById('generateURLButton').addEventListener('click', () => {
             const brand = document.getElementById('brand').value;
             const industry = document.getElementById('industry').value;
@@ -226,7 +224,6 @@
             }
         });
 
-        // On URL parameter detection, populate review form
         window.onload = function() {
             const params = new URLSearchParams(window.location.search);
             const brand = params.get('utm_brand');
@@ -241,7 +238,6 @@
             }
         };
 
-        // Handle Generate Review button click
         document.getElementById('generateReviewButton').addEventListener('click', async () => {
             const brand = document.getElementById('brandField').value;
             const industry = document.getElementById('industryField').value;
@@ -251,27 +247,16 @@
 
             const prompt = `Write a 100 words review rating ${brand} which is in the ${industry} giving them a ${rating} out of 5.`;
 
-            const payload = {
-                prompt: prompt,
-                brand: brand,
-                industry: industry,
-                rating: rating,
-                name: name,
-                phone: phone,
-                feedbackNotes: feedbackNotes
-            };
+            const payload = { prompt, brand, industry, rating, name, phone, feedbackNotes };
 
             try {
                 const response = await fetch('https://chat-gpt-api.karankhosla99.workers.dev/', {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
+                    headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload)
                 });
-                const data = await response.json();
-                console.log('API Response:', data);
 
+                const data = await response.json();
                 if (data.response && data.response.response) {
                     document.getElementById('reviewOutput').textContent = data.response.response;
                     document.getElementById('reviewOutput').classList.remove('hidden');
@@ -279,16 +264,13 @@
                     document.getElementById('zomatoButton').classList.remove('hidden');
                     document.getElementById('tripAdvisorButton').classList.remove('hidden');
                     document.getElementById('googleButton').classList.remove('hidden');
-                } else {
-                    document.getElementById('reviewOutput').textContent = 'No response received';
                 }
             } catch (error) {
                 console.error('Error:', error);
-                document.getElementById('reviewOutput').textContent = 'There was an error processing your request. Please try again later.';
+                alert('An error occurred while generating the review. Please try again.');
             }
         });
 
-        // Copy review to clipboard
         document.getElementById('copyButton').addEventListener('click', async () => {
             const reviewText = document.getElementById('reviewOutput').textContent;
             const name = document.getElementById('nameField').value;
@@ -316,27 +298,32 @@
 
         // Open respective URL with UTM parameters
         document.getElementById('zomatoButton').addEventListener('click', () => {
+
+        document.getElementById('zomatoButton').addEventListener('click', () => {
             const zomatoLink = document.getElementById('zomatoLink').value;
-            const brand = document.getElementById('brandField').value;
-            const industry = document.getElementById('industryField').value;
-            const url = `${zomatoLink}';
-            window.open(url, '_blank');
+            if (zomatoLink) {
+                window.open(zomatoLink, '_blank');
+            } else {
+                alert('Zomato link is not available.');
+            }
         });
 
         document.getElementById('tripAdvisorButton').addEventListener('click', () => {
             const tripAdvisorLink = document.getElementById('tripAdvisorLink').value;
-            const brand = document.getElementById('brandField').value;
-            const industry = document.getElementById('industryField').value;
-            const url = `${tripAdvisorLink}';
-            window.open(url, '_blank');
+            if (tripAdvisorLink) {
+                window.open(tripAdvisorLink, '_blank');
+            } else {
+                alert('TripAdvisor link is not available.');
+            }
         });
 
         document.getElementById('googleButton').addEventListener('click', () => {
             const googleLink = document.getElementById('googleLink').value;
-            const brand = document.getElementById('brandField').value;
-            const industry = document.getElementById('industryField').value;
-            const url = `${googleLink}`;
-            window.open(url, '_blank');
+            if (googleLink) {
+                window.open(googleLink, '_blank');
+            } else {
+                alert('Google link is not available.');
+            }
         });
     </script>
 </body>
