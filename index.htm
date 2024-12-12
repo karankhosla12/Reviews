@@ -132,7 +132,7 @@
 </head>
 <body>
     <div class="container">
-        <h1>Review Form</h1>
+        <h1> Generate Review Link</h1>
 
         <!-- URL Parameters Form -->
         <div id="urlForm">
@@ -234,30 +234,32 @@
             generatedURLDiv.classList.remove('hidden');
         });
 
-        // Show feedback form after URL is generated
-   window.onload = function () {
-    const params = new URLSearchParams(window.location.search);
-    const brand = params.get('utm_brand');
-    const industry = params.get('utm_industry');
-    const googleLink = params.get('utm_googlelink');
-    const zomatoLink = params.get('utm_zomatolink');
-    const tripAdvisorLink = params.get('utm_tripadvisorlink');
+    // Show feedback form after URL is generated
+    window.onload = function () {
+        const params = new URLSearchParams(window.location.search);
+        const brand = params.get('utm_brand');
+        const industry = params.get('utm_industry');
+        const googleLink = params.get('utm_googlelink');
+        const zomatoLink = params.get('utm_zomatolink');
+        const tripAdvisorLink = params.get('utm_tripadvisorlink');
 
-    // Decode the parameters that contain URLs
-    const decodedGoogleLink = googleLink ? decodeURIComponent(googleLink) : '';
-    const decodedZomatoLink = zomatoLink ? decodeURIComponent(zomatoLink) : '';
-    const decodedTripAdvisorLink = tripAdvisorLink ? decodeURIComponent(tripAdvisorLink) : '';
+        // Decode the parameters that contain URLs
+        decodedGoogleLink = googleLink ? decodeURIComponent(googleLink) : '';
+        decodedZomatoLink = zomatoLink ? decodeURIComponent(zomatoLink) : '';
+        decodedTripAdvisorLink = tripAdvisorLink ? decodeURIComponent(tripAdvisorLink) : '';
 
-    // Also set the brand and industry fields if available
-    if (brand && industry) {
-        document.getElementById('brandField').value = brand;
-        document.getElementById('industryField').value = industry;
+        // Also set the brand and industry fields if available
+        if (brand && industry) {
+            document.getElementById('brandField').value = brand;
+            document.getElementById('industryField').value = industry;
 
-        // Hide the URL input form and show the feedback form
-        document.getElementById('urlForm').classList.add('hidden');
-        document.getElementById('feedbackFormContainer').classList.remove('hidden');
-    }
-};
+            // Hide the URL input form and show the feedback form
+            document.getElementById('urlForm').classList.add('hidden');
+            document.getElementById('feedbackFormContainer').classList.remove('hidden');
+        }
+    };
+
+
 
 
         // Generate Review based on user input
@@ -309,33 +311,30 @@
             }
         });
 
-        // Open respective URL with UTM parameters
-        document.getElementById('zomatoButton').addEventListener('click', () => {
-            const zomatoLink = decodedZomatoLink;
-            if (zomatoLink) {
-                window.open(zomatoLink, '_blank');
-            } else {
-                alert('Zomato link is not available.');
-            }
-        });
+       // Open respective URL with UTM parameters
+    document.getElementById('zomatoButton').addEventListener('click', () => {
+        if (decodedZomatoLink) {
+            window.open(decodedZomatoLink, '_blank');
+        } else {
+            alert('Zomato link is not available.');
+        }
+    });
 
-        document.getElementById('tripAdvisorButton').addEventListener('click', () => {
-            const tripAdvisorLink = decodedTripAdvisorLink;
-            if (tripAdvisorLink) {
-                window.open(tripAdvisorLink, '_blank');
-            } else {
-                alert('TripAdvisor link is not available.');
-            }
-        });
+    document.getElementById('tripAdvisorButton').addEventListener('click', () => {
+        if (decodedTripAdvisorLink) {
+            window.open(decodedTripAdvisorLink, '_blank');
+        } else {
+            alert('TripAdvisor link is not available.');
+        }
+    });
 
-        document.getElementById('googleButton').addEventListener('click', () => {
-            const googleLink = decodedGoogleLink;
-            if (googleLink) {
-                window.open(googleLink, '_blank');
-            } else {
-                alert('Google link is not available.');
-            }
-        });
+    document.getElementById('googleButton').addEventListener('click', () => {
+        if (decodedGoogleLink) {
+            window.open(decodedGoogleLink, '_blank');
+        } else {
+            alert('Google link is not available.');
+        }
+    });
     </script>
 </body>
 </html>
