@@ -104,15 +104,16 @@
             background-color: #01579b;
         }
 
-        #zomatoButton, #tripAdvisorButton, #googleButton {
-            width: 30%;
-            margin: 10px 5% 0;
-            background-color: #ff5722;
-        }
+        #zomatoButton, #tripAdvisorButton, #googleButton, #instagramButton {
+    width: 30%;
+    margin: 10px 5% 0;
+    background-color: #ff5722;
+}
 
-        #zomatoButton:hover, #tripAdvisorButton:hover, #googleButton:hover {
-            background-color: #e64a19;
-        }
+#zomatoButton:hover, #tripAdvisorButton:hover, #googleButton:hover, #instagramButton:hover {
+    background-color: #e64a19;
+}
+
 
         .hidden {
             display: none;
@@ -150,8 +151,8 @@
 
             <label for="tripAdvisorLink">Trip Advisor Link:</label>
             <input type="url" id="tripAdvisorLink" name="tripAdvisorLink">
-                <label for="instagramLink">Instagram Link:</label>
-    <input type="url" id="instagramLink" name="instagramLink">
+             <label for="instagramLink">Instagram Link:</label>
+             <input type="url" id="instagramLink" name="instagramLink">
 
 
 
@@ -250,12 +251,14 @@
         const googleLink = params.get('utm_googlelink');
         const zomatoLink = params.get('utm_zomatolink');
         const tripAdvisorLink = params.get('utm_tripadvisorlink');
+       const instagramLink = params.get('utm_instagramlink');  // Get Instagram link from URL
+
 
         // Decode the parameters that contain URLs
         decodedGoogleLink = googleLink ? decodeURIComponent(googleLink) : '';
         decodedZomatoLink = zomatoLink ? decodeURIComponent(zomatoLink) : '';
         decodedTripAdvisorLink = tripAdvisorLink ? decodeURIComponent(tripAdvisorLink) : '';
-            decodedInstagramLink = instagramLink ? decodeURIComponent(instagramLink) : '';  // Decode Instagram link
+        decodedInstagramLink = instagramLink ? decodeURIComponent(instagramLink) : '';  // Decode Instagram link
 
 
         // Also set the brand and industry fields if available
