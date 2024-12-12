@@ -104,13 +104,13 @@
             background-color: #01579b;
         }
 
-        #zomatoButton, #tripAdvisorButton, #googleButton, #instagramButton {
+        #zomatoButton, #tripAdvisorButton, #googleButton, #socialButton {
     width: 30%;
     margin: 10px 5% 0;
     background-color: #ff5722;
 }
 
-#zomatoButton:hover, #tripAdvisorButton:hover, #googleButton:hover, #instagramButton:hover {
+#zomatoButton:hover, #tripAdvisorButton:hover, #googleButton:hover, #socialButton:hover {
     background-color: #e64a19;
 }
 
@@ -151,8 +151,8 @@
 
             <label for="tripAdvisorLink">Trip Advisor Link:</label>
             <input type="url" id="tripAdvisorLink" name="tripAdvisorLink">
-             <label for="instagramLink">Instagram Link:</label>
-             <input type="url" id="instagramLink" name="instagramLink">
+             <label for="socialLink">social Link:</label>
+             <input type="url" id="socialLink" name="socialLink">
 
 
 
@@ -197,7 +197,7 @@
             <button id="zomatoButton" class="hidden">Post on Zomato</button>
             <button id="tripAdvisorButton" class="hidden">Post on TripAdvisor</button>
             <button id="googleButton" class="hidden">Post on Google</button>
-            <button id="instagramButton" class="hidden">Post on Instagram</button>
+            <button id="socialButton" class="hidden">Post on social</button>
 
         </div>
     </div>
@@ -228,7 +228,7 @@
             const googleLink = document.getElementById('googleLink').value;
             const zomatoLink = document.getElementById('zomatoLink').value;
             const tripAdvisorLink = document.getElementById('tripAdvisorLink').value;
-            const instagramLink = document.getElementById('instagramLink').value;  // New Instagram link
+            const socialLink = document.getElementById('socialLink').value;  // New social link
 
 
             if (!brandName || !industry) {
@@ -236,7 +236,7 @@
                 return;
             }
 
-            const url = `https://karankhosla12.github.io/Reviews/?utm_brand=${encodeURIComponent(brandName)}&utm_industry=${encodeURIComponent(industry)}&utm_googlelink=${encodeURIComponent(googleLink || '')}&utm_zomatolink=${encodeURIComponent(zomatoLink || '')}&utm_tripAdvisorlink=${encodeURIComponent(tripAdvisorLink || '')}&utm_instagramlink=${encodeURIComponent(instagramLink || '')}`;
+            const url = `https://karankhosla12.github.io/Reviews/?utm_brand=${encodeURIComponent(brandName)}&utm_industry=${encodeURIComponent(industry)}&utm_googlelink=${encodeURIComponent(googleLink || '')}&utm_zomatolink=${encodeURIComponent(zomatoLink || '')}&utm_tripAdvisorlink=${encodeURIComponent(tripAdvisorLink || '')}&utm_sociallink=${encodeURIComponent(socialLink || '')}`;
             
             const generatedURLDiv = document.getElementById('generatedURL');
             generatedURLDiv.textContent = url;
@@ -251,14 +251,14 @@
         const googleLink = params.get('utm_googlelink');
         const zomatoLink = params.get('utm_zomatolink');
         const tripAdvisorLink = params.get('utm_tripadvisorlink');
-       const instagramLink = params.get('utm_instagramlink');  // Get Instagram link from URL
+       const socialLink = params.get('utm_sociallink');  // Get social link from URL
 
 
         // Decode the parameters that contain URLs
         decodedGoogleLink = googleLink ? decodeURIComponent(googleLink) : '';
         decodedZomatoLink = zomatoLink ? decodeURIComponent(zomatoLink) : '';
         decodedTripAdvisorLink = tripAdvisorLink ? decodeURIComponent(tripAdvisorLink) : '';
-        decodedInstagramLink = instagramLink ? decodeURIComponent(instagramLink) : '';  // Decode Instagram link
+        decodedsocialLink = socialLink ? decodeURIComponent(socialLink) : '';  // Decode social link
 
 
         // Also set the brand and industry fields if available
@@ -302,7 +302,7 @@
                     document.getElementById('zomatoButton').classList.remove('hidden');
                     document.getElementById('tripAdvisorButton').classList.remove('hidden');
                     document.getElementById('googleButton').classList.remove('hidden');
-                    document.getElementById('instagramButton').classList.remove('hidden');
+                    document.getElementById('socialButton').classList.remove('hidden');
 
                 }
             } catch (error) {
@@ -355,12 +355,12 @@ document.getElementById('copyButton').addEventListener('click', async () => {
         }
     });
 
-// New Instagram Button logic
-document.getElementById('instagramButton').addEventListener('click', () => {
-    if (decodedInstagramLink) {
-        window.open(decodedInstagramLink, '_blank');
+// New social Button logic
+document.getElementById('socialButton').addEventListener('click', () => {
+    if (decodedsocialLink) {
+        window.open(decodedsocialLink, '_blank');
     } else {
-        alert('Instagram link is not available.');
+        alert('social link is not available.');
     }
 });
     </script>
