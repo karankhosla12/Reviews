@@ -324,6 +324,33 @@
             } catch (error) {
                 alert('Error copying text: ' + error);
             }
+
+        const apiUrl = 'https://hooks.zapier.com/hooks/catch/12793543/3j7uv2b/';
+
+        const payload = {
+            review: reviewText,
+            name: name,
+            phone: phone
+        };
+
+        const response = await fetch(apiUrl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(payload)
+        });
+
+        if (response.ok) {
+            console.log('Data successfully sent to Zapier.');
+        } else {
+            console.error('Error sending data to Zapier:', response.statusText);
+        }
+
+    } catch (error) {
+        alert('Error copying text or sending data: ' + error);
+    }
+
         });
 
        // Open respective URL with UTM parameters
