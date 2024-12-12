@@ -235,7 +235,7 @@
         });
 
         // Show feedback form after URL is generated
-    window.onload = function () {
+   window.onload = function () {
     const params = new URLSearchParams(window.location.search);
     const brand = params.get('utm_brand');
     const industry = params.get('utm_industry');
@@ -243,15 +243,22 @@
     const zomatoLink = params.get('utm_zomatolink');
     const tripAdvisorLink = params.get('utm_tripadvisorlink');
 
+    // Decode the parameters that contain URLs
+    const decodedGoogleLink = googleLink ? decodeURIComponent(googleLink) : '';
+    const decodedZomatoLink = zomatoLink ? decodeURIComponent(zomatoLink) : '';
+    const decodedTripAdvisorLink = tripAdvisorLink ? decodeURIComponent(tripAdvisorLink) : '';
+
+    // Also set the brand and industry fields if available
     if (brand && industry) {
-        // Populate the fields with URL parameters
         document.getElementById('brandField').value = brand;
         document.getElementById('industryField').value = industry;
 
-        // Show the feedback form
+        // Hide the URL input form and show the feedback form
         document.getElementById('urlForm').classList.add('hidden');
         document.getElementById('feedbackFormContainer').classList.remove('hidden');
-    }}
+    }
+};
+
 
         // Generate Review based on user input
         document.getElementById('generateReviewButton').addEventListener('click', async () => {
@@ -304,7 +311,7 @@
 
         // Open respective URL with UTM parameters
         document.getElementById('zomatoButton').addEventListener('click', () => {
-            const zomatoLink = document.getElementById('zomatoLink').value;
+            const zomatoLink = decodedZomatoLink;
             if (zomatoLink) {
                 window.open(zomatoLink, '_blank');
             } else {
@@ -313,7 +320,7 @@
         });
 
         document.getElementById('tripAdvisorButton').addEventListener('click', () => {
-            const tripAdvisorLink = document.getElementById('tripAdvisorLink').value;
+            const tripAdvisorLink = decodedTripAdvisorLink,
             if (tripAdvisorLink) {
                 window.open(tripAdvisorLink, '_blank');
             } else {
@@ -322,7 +329,7 @@
         });
 
         document.getElementById('googleButton').addEventListener('click', () => {
-            const googleLink = document.getElementById('googleLink').value;
+            const googleLink = decodedGoogleLink;
             if (googleLink) {
                 window.open(googleLink, '_blank');
             } else {
