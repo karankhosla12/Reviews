@@ -150,6 +150,10 @@
 
             <label for="tripAdvisorLink">Trip Advisor Link:</label>
             <input type="url" id="tripAdvisorLink" name="tripAdvisorLink">
+                <label for="instagramLink">Instagram Link:</label>
+    <input type="url" id="instagramLink" name="instagramLink">
+
+
 
             <button id="generateURLButton">Generate URL</button>
             <div id="generatedURL" class="output-box hidden"></div>
@@ -192,6 +196,8 @@
             <button id="zomatoButton" class="hidden">Post on Zomato</button>
             <button id="tripAdvisorButton" class="hidden">Post on TripAdvisor</button>
             <button id="googleButton" class="hidden">Post on Google</button>
+                <button id="instagramButton" class="hidden">Post on Instagram</button>
+
         </div>
     </div>
 
@@ -221,13 +227,15 @@
             const googleLink = document.getElementById('googleLink').value;
             const zomatoLink = document.getElementById('zomatoLink').value;
             const tripAdvisorLink = document.getElementById('tripAdvisorLink').value;
+            const instagramLink = document.getElementById('instagramLink').value;  // New Instagram link
+
 
             if (!brandName || !industry) {
                 alert('Please fill in the Brand Name and Business Industry fields.');
                 return;
             }
 
-            const url = `https://karankhosla12.github.io/Reviews/?utm_brand=${encodeURIComponent(brandName)}&utm_industry=${encodeURIComponent(industry)}&utm_googlelink=${encodeURIComponent(googleLink || '')}&utm_zomatolink=${encodeURIComponent(zomatoLink || '')}&utm_tripAdvisorlink=${encodeURIComponent(tripAdvisorLink || '')}`;
+            const url = `https://karankhosla12.github.io/Reviews/?utm_brand=${encodeURIComponent(brandName)}&utm_industry=${encodeURIComponent(industry)}&utm_googlelink=${encodeURIComponent(googleLink || '')}&utm_zomatolink=${encodeURIComponent(zomatoLink || '')}&utm_tripAdvisorlink=${encodeURIComponent(tripAdvisorLink || '')}&utm_instagramlink=${encodeURIComponent(instagramLink || '')}`;
             
             const generatedURLDiv = document.getElementById('generatedURL');
             generatedURLDiv.textContent = url;
@@ -247,6 +255,8 @@
         decodedGoogleLink = googleLink ? decodeURIComponent(googleLink) : '';
         decodedZomatoLink = zomatoLink ? decodeURIComponent(zomatoLink) : '';
         decodedTripAdvisorLink = tripAdvisorLink ? decodeURIComponent(tripAdvisorLink) : '';
+            decodedInstagramLink = instagramLink ? decodeURIComponent(instagramLink) : '';  // Decode Instagram link
+
 
         // Also set the brand and industry fields if available
         if (brand && industry) {
@@ -335,6 +345,15 @@
             alert('Google link is not available.');
         }
     });
+
+// New Instagram Button logic
+document.getElementById('instagramButton').addEventListener('click', () => {
+    if (decodedInstagramLink) {
+        window.open(decodedInstagramLink, '_blank');
+    } else {
+        alert('Instagram link is not available.');
+    }
+});
     </script>
 </body>
 </html>
