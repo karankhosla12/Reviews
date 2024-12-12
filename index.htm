@@ -312,34 +312,47 @@
         });
 
         // Handle the Copy Review button
-        document.getElementById('copyButton').addEventListener('click', async () => {
-            const reviewText = document.getElementById('reviewOutput').textContent;
-            const name = document.getElementById('nameField').value;
-            const phone = document.getElementById('phoneField').value;
+document.getElementById('copyButton').addEventListener('click', async () => {
+    const reviewText = document.getElementById('reviewOutput').textContent;
+    const name = document.getElementById('nameField').value;
+    const phone = document.getElementById('phoneField').value;
 
-            try {
-                await navigator.clipboard.writeText(reviewText);
-                alert('Review copied to clipboard!');
+    try {
+        // Copy review text to clipboard
+        await navigator.clipboard.writeText(reviewText);
+        alert('Review copied to clipboard!');
 
-                const apiUrl = 'https://hooks.zapier.com/hooks/catch/12793543/3j7uv2b/';
-                const payload = {
-                    review: reviewText,
-                    name: name,
-                    phone: phone
-                };
+        // Define the API URL
+        const apiUrl = 'https://hooks.zapier.com/hooks/catch/12793543/3j7uv2b/';
 
-                const response = await fetch(apiUrl, {
-                    method: 'POST',
-                    body: JSON.stringify(payload)
-                });
+        // Prepare the payload to send to Zapier
+        const payload = {
+            review: reviewText,
+            name: name,
+            phone: phone
+        };
 
-                if (response.ok) {
-                    console.log('Data successfully sent to Zapier.');
-                } else {
-                    console.error('Error sending data to Zapier:', response.statusText);
-                }
-            } 
+        // Send the data to Zapier using a POST request
+        const response = await fetch(apiUrl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'  // Add headers to specify the content type
+            },
+            body: JSON.stringify(payload)
         });
+
+        // Check if the request was successful
+        if (response.ok) {
+            console.log('Data successfully sent to Zapier.');
+        } else {
+            console.error('Error sending data to Zapier:', response.statusText);
+        }
+    } catch (error) {
+        // Handle any errors that occurred during the process
+        console.error('Error:', error);
+        alert('An error occurred while copying the review or sending data. Please try again.');
+    }
+});
 
        // Open respective URL with UTM parameters
     document.getElementById('zomatoButton').addEventListener('click', () => {
